@@ -20,13 +20,13 @@ export default function Social() {
       >
         <FaProductHunt className="text-xl" />
       </a> */}
-      <a
+      {/* <a
         href="https://www.baidu.com/"
         target="_blank"
         className="mx-3 flex max-w-[24px] flex-col items-center justify-center"
       >
         <BsTwitterX className="text-lg" />
-      </a>
+      </a> */}
       {/* <a
         href="https://www.buymeacoffee.com/xxxx"
         target="_blank"
