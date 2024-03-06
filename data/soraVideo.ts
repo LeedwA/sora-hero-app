@@ -1,3 +1,4 @@
+import { Video } from "@/types/video";
 
 //openai 发布的部分 sora视频数据
 export const allVideoList = [
@@ -290,6 +291,14 @@ export const allVideoList = [
       "keywords": ""
     }
   ]
+
+
+  export function getVideos(page:number) : Video[] {
+    let start = page* 10
+    let end = (page+1)* 10
+    console.log("page",  start + "  to  " + end)
+    return allVideoList.slice(page*10, (page+1)*10)
+  }
   
   
   export const randomVideo = (count:number) => {
