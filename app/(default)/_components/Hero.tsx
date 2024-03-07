@@ -12,6 +12,9 @@ export default function Hero() {
         {/* <Producthunt /> */}
 
         <Input />
+        <div className="text-white text-xl mx-auto max-w-md gap-x-4 mt-8">
+         Sora text-to-video API is not available
+        </div>
         <svg
           viewBox="0 0 1024 1024"
           className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2"

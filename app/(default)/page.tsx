@@ -2,7 +2,7 @@
 
 import Hero from "./_components/Hero";
 import Videos from "./_components/Videos";
-import { getVideos } from "@/data/soraVideo";
+import { allVideoList, getVideos } from "@/data/soraVideo";
 import { useEffect, useState, useRef } from "react";
 import { Video } from "@/types/video";
 import {
@@ -14,83 +14,74 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { toast } from "sonner";
 
 export default function Home() {
-  const [showPreButton, setShowPreButton] = useState(false);
-  const [showNextButton, setShowNextButton] = useState(false);
   const [videos, setVideos] = useState<Video[]>([]);
 
   //局部变量就用 useRef, let一旦赋值则不能改变， useState是响应式的
   const page = useRef(0);
+  const totalPage = useRef(0);
 
   useEffect(() => {
-    setShowPreButton(false);
-    setShowNextButton(true);
+    totalPage.current = Math.ceil(allVideoList.length / 10);
     setVideos(getVideos(page.current));
   }, []);
 
   function handlePre() {
-    if (page.current === 0) {
-      setShowPreButton(false);
+    if (page.current <= 0) {
+      toast.error("Already on the first page");
+      return;
     }
-    setShowNextButton(true);
-    if (page.current > 0) {
-      page.current -= 1;
-    }
+    page.current -= 1;
     console.log("handlePre================== " + page.current);
     setVideos(getVideos(page.current));
   }
 
   function handleNext() {
-    setShowPreButton(true);
+    if (page.current >= totalPage.current - 1) {
+      toast.error("Already on the last page");
+      return;
+    }
     page.current += 1;
     console.log("handleNext==================" + page.current);
-    let data = getVideos(page.current);
-    if (data.length < 10) {
-      //小于10 ，代表没有下一页数据了
-      setShowNextButton(false);
-    }
     setVideos(getVideos(page.current));
+  }
+
+  function selectedPage(pageNumber: number) {
+    page.current = pageNumber;
+    setVideos(getVideos(pageNumber));
   }
 
   return (
     <div>
       <Hero />
       <Videos videos={videos} />
-      <div className="flex flex-row justify-center">
-        {showPreButton && (
-          <button className="text-white font-bold " onClick={handlePre}>
-            Previous
-          </button>
-        )}
-        {showNextButton && (
-          <button className="text-white font-bold m-20" onClick={handleNext}>
-            Next
-          </button>
-        )}
-      </div>
-
-      {/* <Pagination>
+      <Pagination>
         <PaginationContent>
 
-          <PaginationItem>
-            <PaginationPrevious href="#" />
+          <PaginationItem className="text-white">
+            <PaginationPrevious onClick={handlePre} />
           </PaginationItem>
 
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
+          <PaginationItem className="text-white">
+            <PaginationLink  onClick={ () => selectedPage(0)}>1</PaginationLink>
           </PaginationItem>
 
-          <PaginationItem>
+          <PaginationItem className="text-white">
+            <PaginationLink  onClick={ () => selectedPage(1)}>2</PaginationLink>
+          </PaginationItem>
+
+          <PaginationItem className="text-white">
             <PaginationEllipsis />
           </PaginationItem>
 
-          <PaginationItem>
-            <PaginationNext href="#" />
+          <PaginationItem className="text-white">
+            <PaginationNext onClick={handleNext} />
           </PaginationItem>
           
         </PaginationContent>
-      </Pagination> */}
+      </Pagination>
     </div>
   );
 }

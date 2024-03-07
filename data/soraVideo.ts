@@ -292,7 +292,11 @@ export const allVideoList = [
     }
   ]
 
-
+  /**
+   * 分页获取10条数据 
+   * @param page 
+   * @returns 
+   */
   export function getVideos(page:number) : Video[] {
     let start = page* 10
     let end = (page+1)* 10

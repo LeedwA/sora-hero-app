@@ -7,9 +7,9 @@ export default function Footer () {
         <div>
           <p className="font-inter lg: text-center text-sm text-gray-500">
             © Copyright 2024.{" "}
-            <a href="https://www.baidu.com/" target="_blank" className="text-primary">
+            <span className="text-white">
               SoraHero
-            </a>{" "}
+            </span>{" "}
             All rights reserved.
           </p>
         </div>
